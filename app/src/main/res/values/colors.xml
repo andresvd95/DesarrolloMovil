@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Azul marino principal -->
+    <color name="colorPrimary">#FF023e8a</color>
+    <color name="colorPrimaryDark">#FF011f4b</color>
+    <color name="colorPrimaryLight">#FF0077b6</color>
+
+    <!-- Fondo y superficies -->
+    <color name="colorBackground">#FFF0F4FF</color>
+    <color name="colorSurface">#FFFFFFFF</color>
+    <color name="colorRowAlternate">#FFE8F0FE</color>
+
+    <!-- Textos (alto contraste) -->
+    <color name="colorTextPrimary">#FF011f4b</color>
+    <color name="colorTextSecondary">#FF37474F</color>
+    <color name="colorTextHint">#FF78909C</color>
+
+    <!-- Acento y error -->
+    <color name="colorAccent">#FF00b4d8</color>
+    <color name="colorError">#FFB71C1C</color>
+</resources>

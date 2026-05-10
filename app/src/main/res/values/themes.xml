@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.LAYOUTS" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryLight</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+    </style>
+
+    <style name="Theme.LAYOUTS" parent="Base.Theme.LAYOUTS" />
+</resources>
