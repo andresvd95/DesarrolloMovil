@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
-    <!-- Barra superior -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="20dp"
         android:paddingEnd="12dp">
 
@@ -25,45 +24,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
+                android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/white" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textPhotoCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8 foto(s) en galería"
-                android:textSize="12sp"
-                android:textColor="#CCFFFFFF" />
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <Button
             android:id="@+id/buttonSelectAll"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:text="Selec. todo"
-            android:textSize="11sp"
-            android:textColor="@color/colorPrimary"
             android:backgroundTint="@color/white"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp" />
+            android:paddingEnd="10dp"
+            android:text="Selec. todo"
+            android:textColor="@color/colorPrimary"
+            android:textSize="11sp" />
     </LinearLayout>
 
-    <!-- Instrucción -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selecciona las fotos que deseas eliminar"
-        android:textSize="13sp"
-        android:textColor="@color/colorTextSecondary"
         android:background="@color/colorSurface"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingEnd="16dp"
+        android:paddingBottom="10dp"
+        android:text="Selecciona las fotos que deseas eliminar"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="13sp" />
 
-    <!-- Lista de fotos con scroll -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -73,28 +70,26 @@
             android:id="@+id/photoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/colorSurface" />
-
+            android:background="@color/colorSurface"
+            android:orientation="vertical" />
     </ScrollView>
 
-    <!-- Botón eliminar (pie) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSurface"
-        android:padding="16dp"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/buttonDelete"
             android:layout_width="match_parent"
             android:layout_height="52dp"
+            android:backgroundTint="@color/colorError"
             android:text="Eliminar seleccionadas"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/colorError" />
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>
