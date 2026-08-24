@@ -1,6 +1,23 @@
-# Mi App - Gestion de Galeria Fotografica
+# SwipeClean - Limpieza de galeria por gestos
 
 Aplicacion Android desarrollada en Java como parte de la asignatura de Desarrollo Movil. Permite a los usuarios autenticarse y gestionar una galeria de fotos desde la aplicacion.
+
+Documentacion de producto y diseño tecnico del proyecto SwipeClean (MVP con gestos swipe, papelera, filtros, estadisticas y logros): [`docs/PRD.md`](docs/PRD.md) y [`docs/TDD.md`](docs/TDD.md).
+
+## Estado de la migracion hacia SwipeClean
+
+En construccion siguiendo el plan de migracion de `docs/TDD.md`:
+
+- [x] Paso 1 — Permisos de medios (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`, `READ_EXTERNAL_STORAGE`) en el manifest.
+- [x] Paso 2 — Modelo `MediaItem` (reemplaza a `PhotoItem`, con datos reales de archivo).
+- [x] Paso 3 — `MediaRepository` con lectura real de `MediaStore` (`loadFromDevice`).
+- [ ] Paso 4 — Room (`TrashEntry`, `CleanupStats`, `Achievement`).
+- [ ] Paso 5 — `SwipeDeckActivity` + gestos.
+- [ ] Paso 6 — Deshacer.
+- [ ] Paso 7 — `TrashActivity` + vaciado real.
+- [ ] Paso 8 — Filtros y orden.
+- [ ] Paso 9 — `DashboardActivity`.
+- [ ] Paso 10 — Migrar pruebas al nuevo repositorio.
 
 ## Caracteristicas
 
