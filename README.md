@@ -1,6 +1,6 @@
 # SwipeClean - Limpieza de galeria por gestos
 
-Aplicacion Android desarrollada en Java como parte de la asignatura de Desarrollo Movil. Permite a los usuarios autenticarse y gestionar una galeria de fotos desde la aplicacion.
+Aplicacion Android en Java para autenticar usuarios y gestionar una galeria de fotos desde el dispositivo.
 
 Documentacion de producto y diseño tecnico del proyecto SwipeClean (MVP con gestos swipe, papelera, filtros, estadisticas y logros): [`docs/PRD.md`](docs/PRD.md) y [`docs/TDD.md`](docs/TDD.md).
 
@@ -83,4 +83,4 @@ La validación estática de XML, referencias y formato pasa correctamente. La ej
 
 ## Autor
 
-Andres - Desarrollo Movil
+Andres VD

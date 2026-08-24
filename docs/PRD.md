@@ -1,6 +1,6 @@
 # SwipeClean — Product Requirements Document
 
-Documento de producto v1.0 · Proyecto Integrado 1 — Desarrollo Móvil · Android/Java
+Documento de producto v1.0 · Aplicación Android/Java
 
 ## 1. Resumen ejecutivo
 
@@ -21,8 +21,8 @@ Las galerías se llenan de forma constante con fotos, videos, capturas y multime
 - **Dónde**: Android, uso diario, dispositivos que capturan multimedia de alta calidad.
 - **Para quién**: público joven, usuarios frecuentes de cámara/redes/mensajería.
 - **Cómo**: 100% local, sin cuenta ni servidores externos.
-- **Distribución**: académica, vía GitHub, sin publicación obligatoria en tiendas.
-- **Stakeholders**: usuario final · desarrollador · docente · institución · usuarios de prueba.
+- **Distribución**: vía GitHub y distribución directa, sin publicación obligatoria en tiendas.
+- **Stakeholders**: usuario final · desarrollador · usuarios de prueba.
 
 ## 4. La solución
 
@@ -118,7 +118,7 @@ Metas de logros: **10 · 50 · 100 · 200 · 500 · 1.000** archivos.
 - Permisos de medios distintos en Android 13+ (`READ_MEDIA_IMAGES`/`READ_MEDIA_VIDEO`) vs. versiones anteriores.
 - Borrado real de archivos ajenos a la app requiere confirmación del sistema desde Android 11 (`RecoverableSecurityException` / `createDeleteRequest`).
 - Cargar miles de miniaturas sin paginación puede afectar el rendimiento.
-- El calendario académico limita la profundidad de filtros/logros; cada fase debe ser demostrable por separado.
+- Cada fase debe ser demostrable por separado y mantener el alcance del MVP controlado.
 
 ## 14. Conclusiones
 
