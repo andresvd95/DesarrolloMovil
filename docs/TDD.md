@@ -126,9 +126,9 @@ Splash → Login → (Registro opcional) → Solicitud de permisos
 1. Agregar permisos de medios al `AndroidManifest` y el flujo de solicitud en tiempo de ejecución. **✅ hecho**
 2. Convertir `PhotoItem` en `MediaItem`, con datos leídos de `MediaStore`. **✅ hecho**
 3. Extraer de `PhotoGalleryManager` la lógica hacia un `MediaRepository` que consulta `MediaStore`. **✅ hecho (lectura real)**
-4. Introducir Room con `TrashEntry`, `CleanupStats`, `Achievement`; sembrar las seis metas.
-5. Construir `SwipeDeckActivity` y `GalleryViewModel`, mostrando un `MediaItem` a la vez con gestos.
-6. Implementar la pila de deshacer y conectar el swipe izquierdo a `TrashEntry`.
+4. Introducir Room con `TrashEntry`, `CleanupStats`, `Achievement`; sembrar las seis metas. **✅ hecho** — entidades con campos publicos (sin depender de retencion de nombres de parametros del compilador) y `AppDatabase` como singleton.
+5. Construir `SwipeDeckActivity` con gestos. **✅ hecho** — `onTouchListener` sobre `cardMedia` con traslacion/rotacion; se omitio `GalleryViewModel` por ahora (la Activity llama directo al repositorio en un `ExecutorService`) para no sumar la dependencia de `lifecycle-viewmodel` en esta pasada.
+6. Implementar la pila de deshacer y conectar el swipe izquierdo a `TrashEntry`. **✅ hecho** — `undoStack` en memoria; el swipe izquierdo inserta en `TrashEntry` via `MediaRepository.moveToTrash`.
 7. Construir `TrashActivity` con recuperar y vaciado masivo vía `MediaStore.createDeleteRequest`.
 8. Agregar `FilterSheet` y parámetros de orden sobre la consulta del repositorio.
 9. Construir `DashboardActivity` sobre `StatsViewModel`.

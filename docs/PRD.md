@@ -76,9 +76,9 @@ Metas de logros: **10 · 50 · 100 · 200 · 500 · 1.000** archivos.
 |---|---|---|---|
 | RF01 | Acceso a galería: permisos de fotos y videos | ✅ Cumple | `SwipeDeckActivity` solicita permiso en tiempo de ejecución y `MediaRepository` lee `MediaStore` real |
 | RF02 | Visualización uno a uno | ✅ Cumple | `SwipeDeckActivity` muestra un `MediaItem` a la vez (navegación Anterior/Siguiente, gestos pendientes en Fase 2) |
-| RF03 | Gestos: conservar/papelera/después | ❌ No cumple | Interacción es checkbox + botón, sin swipe |
-| RF04 | Deshacer | ❌ No cumple | No existe pila de acciones |
-| RF05 | Papelera: recuperar o eliminar definitivo | ⚠️ Parcial | Borrado directo con confirmación, sin estado recuperable |
+| RF03 | Gestos: conservar/papelera/después | ✅ Cumple | `SwipeDeckActivity` traduce el arrastre táctil y resuelve derecha/izquierda/arriba con animación |
+| RF04 | Deshacer | ✅ Cumple | Pila `undoStack` revierte la última acción (conservar, papelera o después) |
+| RF05 | Papelera: recuperar o eliminar definitivo | ⚠️ Parcial | El swipe izquierdo ya inserta en `TrashEntry` (Room) y es recuperable vía deshacer; falta la pantalla de papelera para recuperar/vaciar fuera de la sesión actual |
 | RF06 | Filtrado | ❌ No cumple | No existe |
 | RF07 | Ordenamiento | ❌ No cumple | No existe |
 | RF08 | Estadísticas | ⚠️ Parcial | Solo contador de fotos restantes |
@@ -108,8 +108,8 @@ Metas de logros: **10 · 50 · 100 · 200 · 500 · 1.000** archivos.
 
 - **Fase 0**: Splash, login, registro, galería de ejemplo con checkbox.
 - **Fase 1 (hecho)**: Acceso real a galería y visualización uno a uno → RF01, RF02.
-- **Fase 2**: Gestos y deshacer → RF03, RF04.
-- **Fase 3**: Papelera recuperable → RF05.
+- **Fase 2 (hecho)**: Gestos y deshacer → RF03, RF04.
+- **Fase 3 (en curso)**: Papelera recuperable → RF05. La escritura en Room ya existe; falta la pantalla de recuperar/vaciar.
 - **Fase 4**: Filtros y orden → RF06, RF07.
 - **Fase 5**: Estadísticas, logros y dashboard → RF08, RF09, RF10.
 

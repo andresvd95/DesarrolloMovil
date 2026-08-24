@@ -11,14 +11,13 @@ En construccion siguiendo el plan de migracion de `docs/TDD.md`:
 - [x] Paso 1 — Permisos de medios (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`, `READ_EXTERNAL_STORAGE`) en el manifest + solicitud en tiempo de ejecución.
 - [x] Paso 2 — Modelo `MediaItem` (reemplaza a `PhotoItem`, con datos reales de archivo).
 - [x] Paso 3 — `MediaRepository` con lectura real de `MediaStore` (`loadFromDevice`).
-- [x] **Fase 1 (RF01 + RF02)** — `SwipeDeckActivity`: pide el permiso en tiempo de ejecución y muestra un archivo real de la galería a la vez (con navegación Anterior/Siguiente temporal, sin gestos todavía). `LoginActivity` ahora navega aquí en vez de a `HomeActivity`.
-- [ ] Paso 4 — Room (`TrashEntry`, `CleanupStats`, `Achievement`).
-- [ ] Paso 5 — `SwipeDeckActivity` + gestos.
-- [ ] Paso 6 — Deshacer.
-- [ ] Paso 7 — `TrashActivity` + vaciado real.
-- [ ] Paso 8 — Filtros y orden.
-- [ ] Paso 9 — `DashboardActivity`.
-- [ ] Paso 10 — Migrar pruebas al nuevo repositorio.
+- [x] **Fase 1 (RF01 + RF02)** — `SwipeDeckActivity`: pide el permiso en tiempo de ejecución y muestra un archivo real de la galería a la vez. `LoginActivity` ahora navega aquí en vez de a `HomeActivity`.
+- [x] Paso 4 — Room (`TrashEntry`, `CleanupStats`, `Achievement` + DAOs y `AppDatabase`).
+- [x] **Fase 2 (RF03 + RF04)** — Gestos swipe reales sobre `cardMedia` (derecha = conservar, izquierda = papelera, arriba = después) con animación de traslación/rotación, cola de revisión (`pendingQueue`) y **deshacer** de la última acción (`buttonUndo`).
+- [ ] Paso 7 — `TrashActivity` + vaciado real (RF05 completo: hoy el swipe izquierdo ya inserta en la papelera de Room, falta la pantalla para recuperar o vaciar definitivamente).
+- [ ] Paso 8 — Filtros y orden (RF06, RF07).
+- [ ] Paso 9 — `DashboardActivity` (RF08 completo, RF09, RF10). Ya existen `StatsRepository` y `AchievementRepository` con pruebas unitarias; falta la pantalla que los muestre.
+- [ ] Paso 10 — Migrar/retirar `PhotoGalleryManagerTest`, `PhotoItem`, `PhotoGalleryManager` y `HomeActivity`, que quedaron reemplazados por el flujo real.
 
 ## Caracteristicas
 

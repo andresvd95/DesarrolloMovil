@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.example.layouts.data.db.TrashDao;
+import com.example.layouts.data.db.TrashEntry;
 import com.example.layouts.gallery.MediaItem;
 
 import java.util.ArrayList;
@@ -73,6 +75,22 @@ public class MediaRepository {
         }
 
         return items;
+    }
+
+    /**
+     * Cubre RF05 (papelera): el swipe izquierdo solo inserta un registro en
+     * Room. El archivo real no se toca todavia, por lo que es reversible.
+     */
+    public void moveToTrash(TrashDao trashDao, MediaItem item) {
+        TrashEntry entry = new TrashEntry();
+        entry.mediaUri = item.getUriString();
+        entry.movedToTrashAt = System.currentTimeMillis();
+        entry.originalAlbum = item.getAlbumName();
+        trashDao.insert(entry);
+    }
+
+    public void restoreFromTrash(TrashDao trashDao, MediaItem item) {
+        trashDao.deleteByUri(item.getUriString());
     }
 
     public static String humanReadableSize(long bytes) {
