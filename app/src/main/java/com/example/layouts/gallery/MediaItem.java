@@ -2,7 +2,7 @@ package com.example.layouts.gallery;
 
 /**
  * Representa un archivo real de la galeria del dispositivo (foto o video),
- * leido desde MediaStore. Reemplaza a PhotoItem, que usaba datos inventados.
+ * leido desde MediaStore. Sustituye el modelo de datos de ejemplo del MVP.
  */
 public class MediaItem {
 

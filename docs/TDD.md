@@ -129,10 +129,10 @@ Splash → Login → (Registro opcional) → Solicitud de permisos
 4. Introducir Room con `TrashEntry`, `CleanupStats`, `Achievement`; sembrar las seis metas. **✅ hecho** — entidades con campos publicos (sin depender de retencion de nombres de parametros del compilador) y `AppDatabase` como singleton.
 5. Construir `SwipeDeckActivity` con gestos. **✅ hecho** — `onTouchListener` sobre `cardMedia` con traslacion/rotacion; se omitio `GalleryViewModel` por ahora (la Activity llama directo al repositorio en un `ExecutorService`) para no sumar la dependencia de `lifecycle-viewmodel` en esta pasada.
 6. Implementar la pila de deshacer y conectar el swipe izquierdo a `TrashEntry`. **✅ hecho** — `undoStack` en memoria; el swipe izquierdo inserta en `TrashEntry` via `MediaRepository.moveToTrash`.
-7. Construir `TrashActivity` con recuperar y vaciado masivo vía `MediaStore.createDeleteRequest`.
-8. Agregar `FilterSheet` y parámetros de orden sobre la consulta del repositorio.
-9. Construir `DashboardActivity` sobre `StatsViewModel`.
-10. Migrar `PhotoGalleryManagerTest` a pruebas del nuevo `MediaRepository` y sumar pruebas de deshacer, papelera y logros.
+7. Construir `TrashActivity` con recuperar y vaciado masivo via `MediaStore.createDeleteRequest`. **hecho** - `TrashRepository` concentra las operaciones de Room; la Activity elimina las filas solo despues de la confirmacion del sistema.
+8. Agregar controles de filtros y orden sobre la consulta del repositorio. **hecho** - `SwipeDeckActivity` construye `MediaQuery` desde un dialogo y recarga la cola.
+9. Construir `DashboardActivity` sobre `StatsViewModel`. **hecho** - `DashboardActivity` muestra estadisticas, logros y almacenamiento local mediante `StatFs`.
+10. Retirar el flujo legado (`PhotoGalleryManagerTest`, `PhotoItem`, `PhotoGalleryManager`, `HomeActivity` y `MainActivity`). **hecho** - el flujo activo quedó en `SwipeDeckActivity`, `TrashActivity` y `DashboardActivity`.
 
 ## 13. Estructura de paquetes propuesta
 
@@ -148,6 +148,6 @@ com.example.layouts
 
 ## 14. Estrategia de pruebas
 
-**Unitarias**: `MediaRepositoryTest` (mover a papelera, deshacer, recuperar), `StatsRepositoryTest`, `AchievementRepositoryTest`, `MediaQueryTest`.
+**Unitarias**: `MediaRepositoryTest`, `TrashRepositoryTest`, `MediaQueryTest`, `StatsRepositoryTest`, `AchievementRepositoryTest`, `DashboardSummaryTest`.
 
 **Instrumentadas/manuales**: lectura real de `MediaStore` en dispositivo/emulador, flujo de permisos en API 30 y 33+, umbral y animación del swipe, diálogo de confirmación del sistema al vaciar papelera.

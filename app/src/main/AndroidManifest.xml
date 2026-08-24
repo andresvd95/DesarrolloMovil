@@ -30,9 +30,9 @@
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity" />
         <activity android:name=".SwipeDeckActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".TrashActivity" />
+        <activity android:name=".DashboardActivity" />
 
     </application>
 

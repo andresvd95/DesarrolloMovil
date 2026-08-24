@@ -29,6 +29,16 @@ public class StatsRepositoryTest {
     }
 
     @Test
+    public void registerBatchDeletionAccumulatesCountAndBytes() {
+        StatsRepository repository = new StatsRepository(new FakeStatsDao());
+
+        CleanupStats stats = repository.registerDeletions(3, 4096);
+
+        assertEquals(3, stats.deletedCount);
+        assertEquals(4096, stats.bytesFreed);
+    }
+
+    @Test
     public void decrementReviewedNeverGoesNegative() {
         StatsRepository repository = new StatsRepository(new FakeStatsDao());
 

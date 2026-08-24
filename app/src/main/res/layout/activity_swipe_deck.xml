@@ -126,13 +126,29 @@
 
         <Button
             android:id="@+id/buttonUndo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="52dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/colorPrimaryLight"
             android:enabled="false"
             android:text="↺ Deshacer"
             android:textColor="@color/white"
             android:textStyle="bold" />
+        <Button
+            android:id="@+id/buttonTrash"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="Papelera" />
+
+        <Button
+            android:id="@+id/buttonFilters"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="Filtros" />
     </LinearLayout>
 
 </LinearLayout>

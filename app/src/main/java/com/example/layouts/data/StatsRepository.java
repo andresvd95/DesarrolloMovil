@@ -36,9 +36,13 @@ public class StatsRepository {
     }
 
     public CleanupStats registerDeletion(long bytesFreed) {
+        return registerDeletions(1, bytesFreed);
+    }
+
+    public CleanupStats registerDeletions(int deletedCount, long bytesFreed) {
         CleanupStats stats = getStats();
-        stats.deletedCount++;
-        stats.bytesFreed += bytesFreed;
+        stats.deletedCount += Math.max(0, deletedCount);
+        stats.bytesFreed += Math.max(0, bytesFreed);
         statsDao.upsert(stats);
         return stats;
     }

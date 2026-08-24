@@ -16,7 +16,7 @@ import java.util.Locale;
 
 /**
  * Lee el contenido real de fotos y videos del dispositivo via MediaStore.
- * Reemplaza los datos hardcodeados de PhotoGalleryManager.createDefault().
+ * Reemplaza los datos hardcodeados de la primera version del prototipo.
  */
 public class MediaRepository {
 
@@ -40,6 +40,14 @@ public class MediaRepository {
     };
 
     public List<MediaItem> loadFromDevice(ContentResolver resolver) {
+        return loadFromDevice(resolver, MediaQuery.builder().build());
+    }
+
+    /**
+     * Carga los medios del dispositivo y aplica los filtros/orden solicitados
+     * antes de entregarlos a la cola de revision.
+     */
+    public List<MediaItem> loadFromDevice(ContentResolver resolver, MediaQuery query) {
         List<MediaItem> items = new ArrayList<>();
         Uri collection = MediaStore.Files.getContentUri("external");
 
@@ -74,7 +82,7 @@ public class MediaRepository {
             }
         }
 
-        return items;
+        return query == null ? items : query.apply(items);
     }
 
     /**
@@ -86,6 +94,7 @@ public class MediaRepository {
         entry.mediaUri = item.getUriString();
         entry.movedToTrashAt = System.currentTimeMillis();
         entry.originalAlbum = item.getAlbumName();
+        entry.sizeBytes = item.getSizeBytes();
         trashDao.insert(entry);
     }
 

@@ -6,39 +6,30 @@ Documentacion de producto y diseño tecnico del proyecto SwipeClean (MVP con ges
 
 ## Estado de la migracion hacia SwipeClean
 
-En construccion siguiendo el plan de migracion de `docs/TDD.md`:
+Migracion principal completada siguiendo el plan de `docs/TDD.md`:
 
 - [x] Paso 1 — Permisos de medios (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`, `READ_EXTERNAL_STORAGE`) en el manifest + solicitud en tiempo de ejecución.
 - [x] Paso 2 — Modelo `MediaItem` (reemplaza a `PhotoItem`, con datos reales de archivo).
 - [x] Paso 3 — `MediaRepository` con lectura real de `MediaStore` (`loadFromDevice`).
-- [x] **Fase 1 (RF01 + RF02)** — `SwipeDeckActivity`: pide el permiso en tiempo de ejecución y muestra un archivo real de la galería a la vez. `LoginActivity` ahora navega aquí en vez de a `HomeActivity`.
+- [x] **Fase 1 (RF01 + RF02)** — `SwipeDeckActivity`: pide el permiso en tiempo de ejecución y muestra un archivo real de la galería a la vez. `LoginActivity` ahora navega directamente a `SwipeDeckActivity`.
 - [x] Paso 4 — Room (`TrashEntry`, `CleanupStats`, `Achievement` + DAOs y `AppDatabase`).
 - [x] **Fase 2 (RF03 + RF04)** — Gestos swipe reales sobre `cardMedia` (derecha = conservar, izquierda = papelera, arriba = después) con animación de traslación/rotación, cola de revisión (`pendingQueue`) y **deshacer** de la última acción (`buttonUndo`).
-- [ ] Paso 7 — `TrashActivity` + vaciado real (RF05 completo: hoy el swipe izquierdo ya inserta en la papelera de Room, falta la pantalla para recuperar o vaciar definitivamente).
-- [ ] Paso 8 — Filtros y orden (RF06, RF07).
-- [ ] Paso 9 — `DashboardActivity` (RF08 completo, RF09, RF10). Ya existen `StatsRepository` y `AchievementRepository` con pruebas unitarias; falta la pantalla que los muestre.
-- [ ] Paso 10 — Migrar/retirar `PhotoGalleryManagerTest`, `PhotoItem`, `PhotoGalleryManager` y `HomeActivity`, que quedaron reemplazados por el flujo real.
+- [x] Paso 7 — `TrashActivity` + vaciado real (RF05): recuperar entradas desde Room y solicitar el borrado definitivo con confirmación nativa de `MediaStore`.
+- [x] Paso 8 — Filtros y orden (RF06, RF07): diálogo en `SwipeDeckActivity` conectado a `MediaQuery`.
+- [x] Paso 9 — `DashboardActivity` (RF08, RF09, RF10): estadísticas, logros y almacenamiento del dispositivo.
+- [x] Paso 10 — Retirado el flujo legado de `PhotoGalleryManager`, `PhotoItem`, `HomeActivity` y `MainActivity`; el flujo activo usa `SwipeDeckActivity`, Room y MediaStore.
 
 ## Caracteristicas
 
-- Pantalla de bienvenida (`Splash`)
-- Registro e inicio de sesion con validacion basica
-- Galeria de fotos con nombre y tamano por elemento
-- Seleccion individual o masiva mediante checkboxes
-- Confirmacion previa antes de eliminar fotos
-- Actualizacion inmediata del contador despues del borrado
+- Pantalla de bienvenida, registro e inicio de sesion
+- Revision individual de fotos y videos con gestos swipe
+- Deshacer y papelera temporal recuperable
+- Filtros y ordenamiento por tipo, capturas, album, tamano y fecha
+- Estadisticas, logros y dashboard de almacenamiento
 
-## Correccion aplicada
+## Arquitectura actual
 
-El problema original era que la pantalla eliminaba solo parte de la representacion visual y podia dejar elementos separados de la fila original. Ahora la galeria se maneja desde un estado central y la interfaz se reconstruye desde ese estado cada vez que cambia.
-
-Cambios principales:
-
-- Se creo `PhotoItem` como modelo de cada foto.
-- Se creo `PhotoGalleryManager` para manejar seleccion y eliminacion.
-- `HomeActivity` ahora renderiza la lista completa desde `PhotoGalleryManager`.
-- Al eliminar fotos tambien desaparecen los divisores sobrantes.
-- Se agrego una prueba unitaria para validar el borrado selectivo.
+El flujo activo usa `MediaStore` para leer medios reales, `MediaQuery` para filtros y orden, Room para papelera/estadisticas/logros y Activities separadas para swipe, papelera y dashboard.
 
 ## Flujo de la aplicacion
 
@@ -56,10 +47,11 @@ Cambios principales:
 
 ## Estructura principal
 
-- [HomeActivity.java](/C:/Proyectos Android Studio/Actividad1/app/src/main/java/com/example/layouts/HomeActivity.java)
-- [PhotoGalleryManager.java](/C:/Proyectos Android Studio/Actividad1/app/src/main/java/com/example/layouts/PhotoGalleryManager.java)
-- [PhotoItem.java](/C:/Proyectos Android Studio/Actividad1/app/src/main/java/com/example/layouts/PhotoItem.java)
-- [PhotoGalleryManagerTest.java](/C:/Proyectos Android Studio/Actividad1/app/src/test/java/com/example/layouts/PhotoGalleryManagerTest.java)
+- `SwipeDeckActivity` — revision por gestos y filtros.
+- `TrashActivity` — recuperacion y vaciado confirmado.
+- `DashboardActivity` — estadisticas, logros y almacenamiento.
+- `MediaRepository` / `MediaQuery` — acceso y consulta de medios.
+- `TrashRepository`, `StatsRepository`, `AchievementRepository` — persistencia y progreso.
 
 ## Requisitos
 
@@ -85,13 +77,9 @@ Compilacion por consola:
 
 ## Pruebas
 
-Prueba unitaria agregada:
+Pruebas unitarias principales: `MediaRepositoryTest`, `MediaQueryTest`, `TrashRepositoryTest`, `StatsRepositoryTest`, `AchievementRepositoryTest` y `DashboardSummaryTest`.
 
-```powershell
-./gradlew.bat testDebugUnitTest --tests com.example.layouts.PhotoGalleryManagerTest
-```
-
-En este entorno la app compilo correctamente con `assembleDebug` y las fuentes de test tambien compilaron con `compileDebugUnitTestJavaWithJavac`. La ejecucion completa de `testDebugUnitTest` no pudo finalizar aqui por un fallo del worker de pruebas de Gradle al iniciar el proceso.
+La validación estática de XML, referencias y formato pasa correctamente. La ejecución de Gradle queda pendiente: el wrapper 9.3.1 se bloquea durante `CommandLineTaskParser.parseTasks` incluso con un JDK configurado.
 
 ## Autor
 

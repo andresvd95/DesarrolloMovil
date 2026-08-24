@@ -1,16 +1,25 @@
 package com.example.layouts;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -18,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.layouts.data.AchievementRepository;
+import com.example.layouts.data.MediaQuery;
 import com.example.layouts.data.MediaRepository;
 import com.example.layouts.data.StatsRepository;
 import com.example.layouts.data.db.AppDatabase;
@@ -56,6 +66,10 @@ public class SwipeDeckActivity extends AppCompatActivity {
     private TextView textMediaMeta;
     private TextView textMediaCounter;
     private Button buttonUndo;
+    private Button buttonTrash;
+    private Button buttonFilters;
+
+    private MediaQuery activeQuery = MediaQuery.builder().build();
 
     private LinkedList<MediaItem> pendingQueue = new LinkedList<>();
     private float dragStartRawX;
@@ -95,9 +109,13 @@ public class SwipeDeckActivity extends AppCompatActivity {
         textMediaMeta = findViewById(R.id.textMediaMeta);
         textMediaCounter = findViewById(R.id.textMediaCounter);
         buttonUndo = findViewById(R.id.buttonUndo);
+        buttonTrash = findViewById(R.id.buttonTrash);
+        buttonFilters = findViewById(R.id.buttonFilters);
 
         cardMedia.setOnTouchListener(this::onCardTouch);
         buttonUndo.setOnClickListener(v -> undoLast());
+        buttonTrash.setOnClickListener(v -> startActivity(new Intent(this, TrashActivity.class)));
+        buttonFilters.setOnClickListener(v -> showFilterDialog());
 
         if (hasPermissions()) {
             loadMedia();
@@ -110,6 +128,155 @@ public class SwipeDeckActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         executor.shutdown();
+    }
+
+    // ---- Filtros y orden (RF06, RF07) ----
+
+    private void showFilterDialog() {
+        LinearLayout form = new LinearLayout(this);
+        form.setOrientation(LinearLayout.VERTICAL);
+        int padding = (int) (20 * getResources().getDisplayMetrics().density);
+        form.setPadding(padding, 0, padding, 0);
+
+        Spinner typeSpinner = spinner(new String[]{"Todos", "Fotos", "Videos"});
+        Spinner sortSpinner = spinner(new String[]{"Fecha (nuevos primero)", "Tamano (mayores primero)", "Tipo", "Aleatorio"});
+        CheckBox screenshots = new CheckBox(this);
+        screenshots.setText("Solo capturas de pantalla");
+
+        EditText album = input("Album (opcional)", InputType.TYPE_CLASS_TEXT);
+        EditText minSize = input("Tamano minimo en MB (opcional)", InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        EditText maxSize = input("Tamano maximo en MB (opcional)", InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        EditText fromDate = input("Fecha inicial epoch segundos (opcional)", InputType.TYPE_CLASS_NUMBER);
+        EditText toDate = input("Fecha final epoch segundos (opcional)", InputType.TYPE_CLASS_NUMBER);
+
+        form.addView(label("Tipo de medio"));
+        form.addView(typeSpinner);
+        form.addView(screenshots);
+        form.addView(album);
+        form.addView(minSize);
+        form.addView(maxSize);
+        form.addView(fromDate);
+        form.addView(toDate);
+        form.addView(label("Ordenar por"));
+        form.addView(sortSpinner);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Filtros y orden")
+                .setView(form)
+                .setNegativeButton("Cancelar", null)
+                .setPositiveButton("Aplicar", (dialog, which) -> applyFilter(
+                        typeSpinner, screenshots, album, minSize, maxSize, fromDate, toDate, sortSpinner))
+                .show();
+    }
+
+    private Spinner spinner(String[] values) {
+        Spinner spinner = new Spinner(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, values);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        return spinner;
+    }
+
+    private EditText input(String hint, int inputType) {
+        EditText input = new EditText(this);
+        input.setHint(hint);
+        input.setInputType(inputType);
+        input.setSingleLine(true);
+        return input;
+    }
+
+    private TextView label(String text) {
+        TextView label = new TextView(this);
+        label.setText(text);
+        label.setTextSize(13);
+        return label;
+    }
+
+    private void applyFilter(Spinner typeSpinner, CheckBox screenshots, EditText album,
+                             EditText minSize, EditText maxSize, EditText fromDate,
+                             EditText toDate, Spinner sortSpinner) {
+        Long minBytes = parseMegabytes(minSize);
+        Long maxBytes = parseMegabytes(maxSize);
+        Long from = parseLong(fromDate);
+        Long to = parseLong(toDate);
+
+        if (hasInvalidValue(minSize, minBytes) || hasInvalidValue(maxSize, maxBytes)
+                || hasInvalidValue(fromDate, from) || hasInvalidValue(toDate, to)) {
+            Toast.makeText(this, "Revisa los valores numericos de los filtros", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (minBytes != null && maxBytes != null && minBytes > maxBytes) {
+            Toast.makeText(this, "El tamano minimo no puede superar al maximo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (from != null && to != null && from > to) {
+            Toast.makeText(this, "La fecha inicial no puede superar la final", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        MediaQuery.MediaType type = typeSpinner.getSelectedItemPosition() == 1
+                ? MediaQuery.MediaType.PHOTOS
+                : typeSpinner.getSelectedItemPosition() == 2
+                ? MediaQuery.MediaType.VIDEOS : MediaQuery.MediaType.ALL;
+        MediaQuery.SortKey sort = sortSpinner.getSelectedItemPosition() == 1
+                ? MediaQuery.SortKey.SIZE
+                : sortSpinner.getSelectedItemPosition() == 2
+                ? MediaQuery.SortKey.TYPE
+                : sortSpinner.getSelectedItemPosition() == 3
+                ? MediaQuery.SortKey.RANDOM : MediaQuery.SortKey.DATE;
+
+        activeQuery = MediaQuery.builder()
+                .type(type)
+                .onlyScreenshots(screenshots.isChecked())
+                .album(emptyToNull(album.getText().toString()))
+                .minSizeBytes(minBytes)
+                .maxSizeBytes(maxBytes)
+                .fromDateAdded(from)
+                .toDateAdded(to)
+                .sortBy(sort)
+                .build();
+
+        undoStack.clear();
+        loadMedia();
+    }
+
+    private Long parseMegabytes(EditText input) {
+        String value = input.getText().toString().trim();
+        if (value.isEmpty()) {
+            return null;
+        }
+        try {
+            double megabytes = Double.parseDouble(value);
+            if (megabytes < 0 || Double.isInfinite(megabytes) || Double.isNaN(megabytes)) {
+                return null;
+            }
+            return Math.round(megabytes * 1024 * 1024);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    private Long parseLong(EditText input) {
+        String value = input.getText().toString().trim();
+        if (value.isEmpty()) {
+            return null;
+        }
+        try {
+            long parsed = Long.parseLong(value);
+            return parsed >= 0 ? parsed : null;
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    private boolean hasInvalidValue(EditText input, Long parsed) {
+        return !input.getText().toString().trim().isEmpty() && parsed == null;
+    }
+
+    private String emptyToNull(String value) {
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
     // ---- Permisos (RF01) ----
@@ -145,7 +312,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         textEmptyState.setText("Cargando galería…");
         textEmptyState.setVisibility(View.VISIBLE);
         executor.execute(() -> {
-            List<MediaItem> loaded = mediaRepository.loadFromDevice(getContentResolver());
+            List<MediaItem> loaded = mediaRepository.loadFromDevice(getContentResolver(), activeQuery);
 
             AppDatabase database = AppDatabase.getInstance(getApplicationContext());
             trashDao = database.trashDao();

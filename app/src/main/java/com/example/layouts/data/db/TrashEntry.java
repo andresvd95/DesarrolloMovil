@@ -16,4 +16,5 @@ public class TrashEntry {
     public String mediaUri;
     public long movedToTrashAt;
     public String originalAlbum;
+    public long sizeBytes;
 }
