@@ -8,9 +8,10 @@ Documentacion de producto y diseño tecnico del proyecto SwipeClean (MVP con ges
 
 En construccion siguiendo el plan de migracion de `docs/TDD.md`:
 
-- [x] Paso 1 — Permisos de medios (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`, `READ_EXTERNAL_STORAGE`) en el manifest.
+- [x] Paso 1 — Permisos de medios (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`, `READ_EXTERNAL_STORAGE`) en el manifest + solicitud en tiempo de ejecución.
 - [x] Paso 2 — Modelo `MediaItem` (reemplaza a `PhotoItem`, con datos reales de archivo).
 - [x] Paso 3 — `MediaRepository` con lectura real de `MediaStore` (`loadFromDevice`).
+- [x] **Fase 1 (RF01 + RF02)** — `SwipeDeckActivity`: pide el permiso en tiempo de ejecución y muestra un archivo real de la galería a la vez (con navegación Anterior/Siguiente temporal, sin gestos todavía). `LoginActivity` ahora navega aquí en vez de a `HomeActivity`.
 - [ ] Paso 4 — Room (`TrashEntry`, `CleanupStats`, `Achievement`).
 - [ ] Paso 5 — `SwipeDeckActivity` + gestos.
 - [ ] Paso 6 — Deshacer.

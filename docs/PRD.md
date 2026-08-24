@@ -74,8 +74,8 @@ Metas de logros: **10 · 50 · 100 · 200 · 500 · 1.000** archivos.
 
 | ID | Requisito | Estado | Brecha |
 |---|---|---|---|
-| RF01 | Acceso a galería: permisos de fotos y videos | ❌ No cumple | Sin permisos ni lectura de `MediaStore`; datos hardcodeados |
-| RF02 | Visualización uno a uno | ❌ No cumple | Renderiza lista completa, no una tarjeta a la vez |
+| RF01 | Acceso a galería: permisos de fotos y videos | ✅ Cumple | `SwipeDeckActivity` solicita permiso en tiempo de ejecución y `MediaRepository` lee `MediaStore` real |
+| RF02 | Visualización uno a uno | ✅ Cumple | `SwipeDeckActivity` muestra un `MediaItem` a la vez (navegación Anterior/Siguiente, gestos pendientes en Fase 2) |
 | RF03 | Gestos: conservar/papelera/después | ❌ No cumple | Interacción es checkbox + botón, sin swipe |
 | RF04 | Deshacer | ❌ No cumple | No existe pila de acciones |
 | RF05 | Papelera: recuperar o eliminar definitivo | ⚠️ Parcial | Borrado directo con confirmación, sin estado recuperable |
@@ -106,8 +106,8 @@ Metas de logros: **10 · 50 · 100 · 200 · 500 · 1.000** archivos.
 
 ## 12. Ruta hacia el MVP
 
-- **Fase 0 (hoy)**: Splash, login, registro, galería de ejemplo con checkbox.
-- **Fase 1**: Acceso real a galería y visualización uno a uno → RF01, RF02.
+- **Fase 0**: Splash, login, registro, galería de ejemplo con checkbox.
+- **Fase 1 (hecho)**: Acceso real a galería y visualización uno a uno → RF01, RF02.
 - **Fase 2**: Gestos y deshacer → RF03, RF04.
 - **Fase 3**: Papelera recuperable → RF05.
 - **Fase 4**: Filtros y orden → RF06, RF07.
