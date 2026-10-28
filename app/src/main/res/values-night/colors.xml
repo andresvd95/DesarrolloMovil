@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Azul marino / cian de marca, aclarados para contraste en fondo oscuro -->
+    <color name="colorPrimary">#FF00B4D8</color>
+    <color name="colorPrimaryDark">#FF0059B3</color>
+    <color name="colorPrimaryLight">#FF5CE1F2</color>
+
+    <!-- Fondo y superficies -->
+    <color name="colorBackground">#FF05070E</color>
+    <color name="colorSurface">#FF111A2C</color>
+    <color name="colorSurfaceElevated">#FF0D1522</color>
+    <color name="colorRowAlternate">#FF0D1522</color>
+    <color name="colorBorder">#17FFFFFF</color>
+    <!-- colorSurfaceElevated con alpha, para tarjetas tipo "vidrio esmerilado" -->
+    <color name="colorGlassSurface">#D90D1522</color>
+
+    <!-- Textos (alto contraste) -->
+    <color name="colorTextPrimary">#FFF5F7FA</color>
+    <color name="colorTextSecondary">#99F5F7FA</color>
+    <color name="colorTextHint">#61F5F7FA</color>
+    <color name="colorTextTertiary">#61F5F7FA</color>
+
+    <!-- Acento y error -->
+    <color name="colorAccent">#FF00B4D8</color>
+    <color name="colorAccentLight">#FF5CE1F2</color>
+    <color name="colorError">#FFFF7A87</color>
+    <color name="colorDangerStart">#FFFF7A87</color>
+    <color name="colorDangerEnd">#FFE23E57</color>
+
+    <color name="colorScrim">#B3000000</color>
+
+    <color name="colorStatGreen">#FF3BC97E</color>
+    <color name="colorStatPurple">#FFA78BFA</color>
+</resources>

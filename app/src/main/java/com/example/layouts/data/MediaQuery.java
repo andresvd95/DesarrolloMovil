@@ -20,6 +20,8 @@ public final class MediaQuery {
 
     private final MediaType type;
     private final boolean onlyScreenshots;
+    private final boolean excludeVideos;
+    private final boolean excludeScreenshots;
     private final Long minSizeBytes;
     private final Long maxSizeBytes;
     private final Long fromDateAdded;
@@ -30,6 +32,8 @@ public final class MediaQuery {
     private MediaQuery(Builder builder) {
         type = builder.type;
         onlyScreenshots = builder.onlyScreenshots;
+        excludeVideos = builder.excludeVideos;
+        excludeScreenshots = builder.excludeScreenshots;
         minSizeBytes = builder.minSizeBytes;
         maxSizeBytes = builder.maxSizeBytes;
         fromDateAdded = builder.fromDateAdded;
@@ -40,6 +44,14 @@ public final class MediaQuery {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public MediaType getType() {
+        return type;
+    }
+
+    public SortKey getSortBy() {
+        return sortBy;
     }
 
     public List<MediaItem> apply(List<MediaItem> source) {
@@ -70,6 +82,12 @@ public final class MediaQuery {
             return false;
         }
         if (onlyScreenshots && !isScreenshot(item)) {
+            return false;
+        }
+        if (excludeVideos && item.isVideo()) {
+            return false;
+        }
+        if (excludeScreenshots && isScreenshot(item)) {
             return false;
         }
         if (minSizeBytes != null && item.getSizeBytes() < minSizeBytes) {
@@ -106,6 +124,8 @@ public final class MediaQuery {
     public static final class Builder {
         private MediaType type = MediaType.ALL;
         private boolean onlyScreenshots;
+        private boolean excludeVideos;
+        private boolean excludeScreenshots;
         private Long minSizeBytes;
         private Long maxSizeBytes;
         private Long fromDateAdded;
@@ -120,6 +140,16 @@ public final class MediaQuery {
 
         public Builder onlyScreenshots(boolean onlyScreenshots) {
             this.onlyScreenshots = onlyScreenshots;
+            return this;
+        }
+
+        public Builder excludeVideos(boolean excludeVideos) {
+            this.excludeVideos = excludeVideos;
+            return this;
+        }
+
+        public Builder excludeScreenshots(boolean excludeScreenshots) {
+            this.excludeScreenshots = excludeScreenshots;
             return this;
         }
 

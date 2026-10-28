@@ -1,37 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splashRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/colorPrimary"
-    android:padding="40dp">
+    android:background="@drawable/bg_splash">
 
-    <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:src="@drawable/logo_app"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/app_name" />
-
-    <TextView
-        android:id="@+id/textAppName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/splashContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginTop="28dp"
-        android:letterSpacing="0.05" />
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="104dp"
+            android:layout_height="104dp"
+            android:background="@drawable/bg_logo_tile"
+            android:elevation="8dp">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo_app"
+                android:contentDescription="@string/app_name" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/app_name"
+            style="@style/Text.Display"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Desliza. Limpia. Respira."
+            style="@style/Text.Body"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gestiona y limpia tu galería"
-        android:textSize="14sp"
-        android:textColor="#CCFFFFFF"
-        android:layout_marginTop="8dp" />
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="64dp"
+        android:orientation="vertical"
+        android:gravity="center">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cargando tu galería"
+            style="@style/Text.Eyebrow" />
+
+        <ProgressBar
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="14dp"
+            android:indeterminateTint="@color/colorAccent" />
+    </LinearLayout>
+
+</FrameLayout>

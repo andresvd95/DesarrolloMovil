@@ -5,74 +5,310 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="Dashboard"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:padding="20dp">
+
+        <ImageButton
+            android:id="@+id/buttonBack"
+            style="@style/IconButton.Circle"
+            android:src="@drawable/ic_chevron_left"
+            android:contentDescription="Volver" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tu progreso"
+                style="@style/Text.Eyebrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estadísticas"
+                style="@style/Text.Title"
+                android:textSize="22sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/textDashboardReviewed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Revisados: 0"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textDashboardDeleted"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Eliminados definitivamente: 0"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textDashboardBytesFreed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Espacio liberado: 0 B"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textDashboardStorage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Almacenamiento usado: 0%"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textDashboardAchievementProgress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Siguiente logro"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="28dp">
 
             <LinearLayout
-                android:id="@+id/dashboardAchievementsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="16dp">
+
+                    <FrameLayout
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_circle_locked">
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_check"
+                            android:tint="@color/colorAccent" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/textDashboardReviewed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="0"
+                        android:fontFamily="@font/poppins_extrabold"
+                        android:textSize="24sp"
+                        android:letterSpacing="-0.01"
+                        android:textColor="@color/colorTextPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Fotos revisadas"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/colorTextSecondary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="16dp">
+
+                    <FrameLayout
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_circle_locked">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_trash"
+                            android:tint="@color/colorDangerEnd" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/textDashboardDeleted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="0"
+                        android:fontFamily="@font/poppins_extrabold"
+                        android:textSize="24sp"
+                        android:letterSpacing="-0.01"
+                        android:textColor="@color/colorTextPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Eliminadas"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/colorTextSecondary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="16dp">
+
+                    <FrameLayout
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_circle_locked">
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_save"
+                            android:tint="@color/colorStatGreen" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/textDashboardBytesFreed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="0 B"
+                        android:fontFamily="@font/poppins_extrabold"
+                        android:textSize="22sp"
+                        android:letterSpacing="-0.01"
+                        android:textColor="@color/colorTextPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Espacio liberado"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/colorTextSecondary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="16dp">
+
+                    <FrameLayout
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_circle_locked">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_storage"
+                            android:tint="@color/colorStatPurple" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/textDashboardStorage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="0%"
+                        android:fontFamily="@font/poppins_extrabold"
+                        android:textSize="24sp"
+                        android:letterSpacing="-0.01"
+                        android:textColor="@color/colorTextPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Almacenamiento usado"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="12.5sp"
+                        android:textColor="@color/colorTextSecondary" />
+
+                    <ProgressBar
+                        android:id="@+id/progressDashboardStorage"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="8dp"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/progress_bar_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textDashboardStorageDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text=""
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="11sp"
+                        android:textColor="@color/colorTextTertiary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Logros"
+                style="@style/Text.Eyebrow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/textDashboardAchievementProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Siguiente logro"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorTextPrimary" />
+
+                <TextView
+                    android:id="@+id/textDashboardAchievementDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text=""
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="12.5sp"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <ProgressBar
+                    android:id="@+id/progressDashboardAchievement"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="18dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/progress_bar_horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/dashboardAchievementsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

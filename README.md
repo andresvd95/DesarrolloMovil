@@ -1,86 +1,131 @@
-# SwipeClean - Limpieza de galeria por gestos
+<div align="center">
 
-Aplicacion Android en Java para autenticar usuarios y gestionar una galeria de fotos desde el dispositivo.
+<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" width="110" alt="Ícono de SwipeClean" />
 
-Documentacion de producto y diseño tecnico del proyecto SwipeClean (MVP con gestos swipe, papelera, filtros, estadisticas y logros): [`docs/PRD.md`](docs/PRD.md) y [`docs/TDD.md`](docs/TDD.md).
+# SwipeClean
 
-## Estado de la migracion hacia SwipeClean
+**Limpia tu galería deslizando. Conserva lo que importa, manda a la papelera lo que no.**
 
-Migracion principal completada siguiendo el plan de `docs/TDD.md`:
+[![Descargar APK](https://img.shields.io/badge/Descargar_APK-Beta_Free-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/andresvd95/DesarrolloMovil/releases/latest/download/SwipeClean-beta-free.apk)
 
-- [x] Paso 1 — Permisos de medios (`READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO`, `READ_EXTERNAL_STORAGE`) en el manifest + solicitud en tiempo de ejecución.
-- [x] Paso 2 — Modelo `MediaItem` (reemplaza a `PhotoItem`, con datos reales de archivo).
-- [x] Paso 3 — `MediaRepository` con lectura real de `MediaStore` (`loadFromDevice`).
-- [x] **Fase 1 (RF01 + RF02)** — `SwipeDeckActivity`: pide el permiso en tiempo de ejecución y muestra un archivo real de la galería a la vez. `LoginActivity` ahora navega directamente a `SwipeDeckActivity`.
-- [x] Paso 4 — Room (`TrashEntry`, `CleanupStats`, `Achievement` + DAOs y `AppDatabase`).
-- [x] **Fase 2 (RF03 + RF04)** — Gestos swipe reales sobre `cardMedia` (derecha = conservar, izquierda = papelera, arriba = después) con animación de traslación/rotación, cola de revisión (`pendingQueue`) y **deshacer** de la última acción (`buttonUndo`).
-- [x] Paso 7 — `TrashActivity` + vaciado real (RF05): recuperar entradas desde Room y solicitar el borrado definitivo con confirmación nativa de `MediaStore`.
-- [x] Paso 8 — Filtros y orden (RF06, RF07): diálogo en `SwipeDeckActivity` conectado a `MediaQuery`.
-- [x] Paso 9 — `DashboardActivity` (RF08, RF09, RF10): estadísticas, logros y almacenamiento del dispositivo.
-- [x] Paso 10 — Retirado el flujo legado de `PhotoGalleryManager`, `PhotoItem`, `HomeActivity` y `MainActivity`; el flujo activo usa `SwipeDeckActivity`, Room y MediaStore.
+![Versión](https://img.shields.io/github/v/release/andresvd95/DesarrolloMovil?include_prereleases&label=versi%C3%B3n&style=flat-square)
+![Android](https://img.shields.io/badge/Android-7.0%2B-3DDC84?style=flat-square&logo=android&logoColor=white)
+![Java](https://img.shields.io/badge/Java-11-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Descargas](https://img.shields.io/github/downloads/andresvd95/DesarrolloMovil/total?label=descargas&style=flat-square)
 
-## Caracteristicas
+</div>
 
-- Pantalla de bienvenida, registro e inicio de sesion
-- Revision individual de fotos y videos con gestos swipe
-- Deshacer y papelera temporal recuperable
-- Filtros y ordenamiento por tipo, capturas, album, tamano y fecha
-- Estadisticas, logros y dashboard de almacenamiento
+---
 
-## Arquitectura actual
+## ¿Qué es?
 
-El flujo activo usa `MediaStore` para leer medios reales, `MediaQuery` para filtros y orden, Room para papelera/estadisticas/logros y Activities separadas para swipe, papelera y dashboard.
+SwipeClean es una app Android nativa para ordenar fotos y videos del teléfono de a uno, con gestos tipo swipe. Lo que descartas va a una papelera recuperable, así que nada se borra por accidente. Mientras limpias, la app lleva estadísticas del espacio liberado y desbloqueas logros.
 
-## Flujo de la aplicacion
+> **Beta Free** — esta es la versión gratuita en fase beta. Es completamente funcional y no tiene anuncios ni pagos. Puede contener errores; si encuentras uno, [abre un issue](https://github.com/andresvd95/DesarrolloMovil/issues).
 
-`Splash` -> `Login` -> `Registro` (opcional) -> `Galeria principal`
+## Funciones
 
-## Tecnologias
+| | |
+|---|---|
+| 👉 **Swipe para decidir** | Derecha conserva, izquierda manda a la papelera, arriba deja para después. |
+| ↩️ **Deshacer** | Revierte la última acción con un toque. |
+| 🗑️ **Papelera recuperable** | Restaura lo que descartaste o vacíala cuando estés seguro (con confirmación). |
+| 🔍 **Filtros y orden** | Fotos, videos, capturas de pantalla, por álbum, tamaño o fecha. |
+| 🧬 **Duplicados** | Detecta fotos repetidas para liberar espacio rápido. |
+| 📊 **Dashboard y logros** | Espacio liberado, archivos revisados y logros desbloqueados. |
+| 🌓 **Tema claro / oscuro** | Ajustes de apariencia y preferencias de limpieza. |
+| 🔐 **Permisos correctos** | Permisos de medios granulares en Android 13+, y clásicos en versiones anteriores. |
+
+## Instalación (APK)
+
+1. Toca el botón **Descargar APK** de arriba desde tu teléfono Android (o descárgalo en el PC y pásalo al teléfono).
+2. Abre el archivo `SwipeClean-beta-free.apk`.
+3. Si Android lo pide, permite **instalar apps de origen desconocido** para tu navegador o gestor de archivos.
+4. Abre SwipeClean, crea tu cuenta y concede el acceso a fotos y videos.
+
+**Requisitos:** Android 7.0 (API 24) o superior · ~5 MB.
+
+Todas las versiones están en la página de [Releases](https://github.com/andresvd95/DesarrolloMovil/releases).
+
+## Cómo funciona
+
+```
+Splash → Login / Registro → Home
+                             ├── Swipe deck (revisión por gestos)
+                             ├── Duplicados
+                             ├── Papelera
+                             ├── Dashboard (estadísticas y logros)
+                             └── Ajustes
+```
+
+La app lee los medios reales del dispositivo con `MediaStore`, aplica filtros con `MediaQuery` y guarda la papelera, estadísticas y logros en una base local con Room. No envía tus fotos a ningún servidor: todo ocurre en el teléfono.
+
+```
+Activity  →  Repository  →  MediaStore / Room DAO
+```
+
+## Para desarrolladores
+
+### Tecnologías
 
 | Herramienta | Detalle |
 |---|---|
-| Lenguaje | Java |
-| Android SDK | API 24 a API 36 |
-| Librerias | AndroidX, Material Design |
-| UI | XML + `LinearLayout` dinamico |
-| IDE recomendado | Android Studio |
+| Lenguaje | Java 11 |
+| Android SDK | min 24 · target 36 |
+| Librerías | AndroidX, Material Design, Room |
+| UI | Activities + layouts XML |
+| Build | Gradle 9.3.1 (AGP 9.x) |
 
-## Estructura principal
+### Estructura
 
-- `SwipeDeckActivity` — revision por gestos y filtros.
-- `TrashActivity` — recuperacion y vaciado confirmado.
-- `DashboardActivity` — estadisticas, logros y almacenamiento.
-- `MediaRepository` / `MediaQuery` — acceso y consulta de medios.
-- `TrashRepository`, `StatsRepository`, `AchievementRepository` — persistencia y progreso.
+```
+app/src/main/java/com/example/layouts/
+├── SplashActivity / LoginActivity / RegisterActivity
+├── HomeActivity            # pantalla principal
+├── SwipeDeckActivity       # revisión por gestos y filtros
+├── TrashActivity           # recuperación y vaciado confirmado
+├── DashboardActivity       # estadísticas, logros y almacenamiento
+├── SettingsActivity        # tema y preferencias
+├── auth/                   # SessionManager
+├── ui/                     # ThemeController, InsetsUtil
+├── gallery/                # MediaItem
+└── data/                   # repositorios, DuplicateFinder, MediaQuery
+    └── db/                 # AppDatabase, DAOs y entidades Room
+```
 
-## Requisitos
-
-- Android 7.0 (API 24) o superior
-- Android Studio reciente con soporte para AGP 9.x
-
-## Ejecucion
-
-1. Clonar el repositorio:
+### Compilar
 
 ```bash
 git clone https://github.com/andresvd95/DesarrolloMovil.git
+cd DesarrolloMovil
+./gradlew assembleDebug
 ```
 
-2. Abrir el proyecto en Android Studio.
-3. Ejecutar en un emulador o dispositivo fisico.
+Abre el proyecto en Android Studio y ejecútalo en un emulador o dispositivo.
 
-Compilacion por consola:
+> **Windows con acentos en el usuario** (p. ej. `C:\Users\Andrés`): si Gradle falla con `Unable to establish loopback connection`, usa una carpeta temporal sin acentos:
+>
+> ```powershell
+> $env:JAVA_TOOL_OPTIONS="-Djdk.net.unixdomain.tmpdir=C:/gtmp"; ./gradlew.bat assembleDebug
+> ```
 
-```powershell
-./gradlew.bat assembleDebug
+**APK firmado (release):** crea `signing/keystore.properties` con `storeFile`, `storePassword`, `keyAlias` y `keyPassword`, y ejecuta `./gradlew assembleRelease`. La carpeta `signing/` está en `.gitignore` y nunca se sube.
+
+### Pruebas
+
+```bash
+./gradlew test
 ```
 
-## Pruebas
+Pruebas unitarias en `app/src/test/java/com/example/layouts/`: repositorios (medios, papelera, estadísticas, logros, ajustes), `MediaQuery`, `DuplicateFinder`, `DashboardSummary` y `SessionManager`.
 
-Pruebas unitarias principales: `MediaRepositoryTest`, `MediaQueryTest`, `TrashRepositoryTest`, `StatsRepositoryTest`, `AchievementRepositoryTest` y `DashboardSummaryTest`.
+## Hoja de ruta
 
-La validación estática de XML, referencias y formato pasa correctamente. La ejecución de Gradle queda pendiente: el wrapper 9.3.1 se bloquea durante `CommandLineTaskParser.parseTasks` incluso con un JDK configurado.
+- [x] Beta Free: swipe, papelera, filtros, duplicados, dashboard y logros
+- [ ] Mejoras en la detección de duplicados
+- [ ] Tutorial interactivo de primer uso
+- [ ] Versión Pro (duplicados sin límite, sin anuncios)
 
 ## Autor
 
-Andres VD
+**Andres VD** — [@andresvd95](https://github.com/andresvd95)

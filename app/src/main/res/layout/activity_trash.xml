@@ -6,34 +6,81 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:padding="20dp">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/buttonBack"
+            style="@style/IconButton.Circle"
+            android:src="@drawable/ic_chevron_left"
+            android:contentDescription="Volver" />
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Papelera"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:layout_marginStart="14dp">
 
-        <Button
-            android:id="@+id/buttonDashboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dashboard" />
+            <TextView
+                android:id="@+id/textTrashCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                style="@style/Text.Eyebrow" />
 
-        <Button
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Papelera"
+                style="@style/Text.Title"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <TextView
             android:id="@+id/buttonEmptyTrash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="Vaciar" />
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:text="Vaciar"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="13.5sp"
+            android:textColor="@color/colorDangerEnd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/selectionRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="14dp">
+
+        <TextView
+            android:id="@+id/textSelectionStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Toca una foto para seleccionarla"
+            style="@style/Text.Caption" />
+
+        <TextView
+            android:id="@+id/buttonSelectAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:text="Seleccionar todo"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="13sp"
+            android:textColor="@color/colorAccent" />
     </LinearLayout>
 
     <TextView
@@ -43,8 +90,8 @@
         android:gravity="center"
         android:padding="32dp"
         android:text="La papelera está vacía"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="15sp" />
+        style="@style/Text.Body"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -55,6 +102,34 @@
             android:id="@+id/trashList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="16dp" />
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/selectionActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/buttonRestoreSelected"
+            style="@style/Button.Ghost"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:text="Recuperar" />
+
+        <Button
+            android:id="@+id/buttonDeleteSelected"
+            style="@style/Button.Danger"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Eliminar definitivamente" />
+    </LinearLayout>
+
 </LinearLayout>
